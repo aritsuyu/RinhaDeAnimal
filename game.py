@@ -25,11 +25,11 @@ GREEN = (50, 205, 50)
 GRAY = (200, 200, 200)
 YELLOW = (255, 255, 0)
 
-# Fonte
+# Font
 font = pygame.font.SysFont(None, 28)
 font_big = pygame.font.SysFont(None, 40)
 
-# Tela de escolha
+# Seleção de Lutador
 def escolher_animal():
     escolha = None
     while escolha is None:
@@ -62,8 +62,7 @@ def draw_hp_bar(pokemon, x, y):
     pygame.draw.rect(screen, GREEN, (x, y, fill, bar_height))
     hp_text = font.render(f"{pokemon.hp} / {pokemon.max_hp}", True, BLACK)
     screen.blit(hp_text, (x + bar_width//2 - hp_text.get_width()//2, y + 2))
-
-# Botão simples
+    
 class Button:
     def __init__(self, rect, text):
         self.rect = pygame.Rect(rect)
@@ -94,7 +93,7 @@ def main():
     waiting_for_enemy = False
     delay_enemy = 0
 
-    # Criar botões dos ataques do jogador
+    # Botões de Ataque
     def criar_botoes():
         botoes = []
         start_x = 30
@@ -132,7 +131,7 @@ def main():
                     running = False
                     break
 
-        # Desenha nomes e HP
+        # Nome e HP
         nome_jog = font_big.render(f"Você: {jogador.nome}", True, BLACK)
         screen.blit(nome_jog, (30, 20))
         draw_hp_bar(jogador, 30, 60)
@@ -141,20 +140,19 @@ def main():
         screen.blit(nome_ini, (WIDTH - 300, 20))
         draw_hp_bar(inimigo, WIDTH - 300, 60)
 
-        # Desenha botões
+        # Botões
         if player_turn and not waiting_for_enemy:
             for btn in ataque_buttons:
                 btn.draw()
         else:
-            # Mensagem que o inimigo está atacando
             msg_ataque = font.render("Inimigo está atacando...", True, BLACK)
             screen.blit(msg_ataque, (WIDTH//2 - msg_ataque.get_width()//2, HEIGHT - 90))
 
-        # Mostrar mensagem de ataque
+        # Mensagem de habilidade
         msg = font.render(mensagem, True, BLACK)
         screen.blit(msg, (30, HEIGHT//2))
 
-        # Turno inimigo automático com delay
+        # Turnos inimigo
         if waiting_for_enemy:
             now = pygame.time.get_ticks()
             if now - delay_enemy > 1500:
@@ -164,7 +162,7 @@ def main():
                 player_turn = True
                 waiting_for_enemy = False
 
-        # Checar vitória/derrota
+        # Win/Derrota
         if jogador.hp <= 0:
             mensagem = f"{jogador.nome} foi destruído! Você perdeu! 💔"
             player_turn = False
